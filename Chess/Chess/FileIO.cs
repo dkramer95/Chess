@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,9 +28,17 @@ namespace Chess
     /// </summary>
     public class FileIO
     {
-        public static void ProcessFile(string filename)
-        {
+        private List<string> moves;
 
+        public void ProcessFile(string filename)
+        {
+            StreamReader fileReader = new StreamReader(filename);
+            string line = null;
+
+            while ((line = fileReader.ReadLine()) != null)
+            {
+
+            }
         }
     }
 }

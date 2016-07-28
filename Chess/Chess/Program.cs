@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Chess.Models.Base;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -11,7 +12,9 @@ namespace Chess
         public static void Main(string[] args)
         {
             // Milestone #1 - File/IO Demo
-            FileIODemo(args);
+            //FileIODemo(args);
+            ChessBoard b = new ChessBoard();
+            b.PrintDebug();
         }
 
         /// <summary>
@@ -20,8 +23,15 @@ namespace Chess
         /// <param name="args">Command Line args</param>
         public static void FileIODemo(string[] args)
         {
-            string filename = args[0];
-            FileIO.ProcessFile(filename);
+            if (args.Length > 0)
+            {
+                string filename = args[0];
+                FileIO io = new FileIO();
+                io.ProcessFile(filename);
+            } else
+            {
+                throw new ArgumentException("Must supply file as command line argument!");
+            }
         }
     }
 }

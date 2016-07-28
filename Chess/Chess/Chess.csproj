@@ -44,16 +44,24 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="FileIO.cs" />
-    <Compile Include="Models\ChessBoard.cs" />
-    <Compile Include="Models\ChessColor.cs" />
-    <Compile Include="Models\ChessPiece.cs" />
-    <Compile Include="Models\ChessTile.cs" />
+    <Compile Include="Models\Base\ChessBoard.cs" />
+    <Compile Include="Models\Base\ChessColor.cs" />
+    <Compile Include="Models\Base\ChessGame.cs" />
+    <Compile Include="Models\Base\ChessPiece.cs" />
+    <Compile Include="Models\Base\ChessTile.cs" />
+    <Compile Include="Models\Pieces\BishopChessPiece.cs" />
+    <Compile Include="Models\Pieces\KingChessPiece.cs" />
+    <Compile Include="Models\Pieces\KnightChessPiece.cs" />
+    <Compile Include="Models\Pieces\PawnChessPiece.cs" />
+    <Compile Include="Models\Pieces\QueenChessPiece.cs" />
+    <Compile Include="Models\Pieces\RookChessPiece.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

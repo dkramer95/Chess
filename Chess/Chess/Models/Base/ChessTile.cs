@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessPhase1.Models
+namespace Chess.Models.Base
 {
     /// <summary>
     /// This class represents a ChessTile on a chess board. A ChessTile has a location

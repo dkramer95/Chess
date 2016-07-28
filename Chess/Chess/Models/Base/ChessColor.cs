@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace ChessPhase1.Models
+namespace Chess.Models.Base
 {
     /// <summary>
     /// Simple enum for Black/White color representation in chess.
@@ -12,6 +12,9 @@ namespace ChessPhase1.Models
     public enum ChessColor
     {
         BLACK,
-        WHITE
+        WHITE,
+
+        LIGHT = WHITE,
+        DARK = BLACK,
     }
 }
