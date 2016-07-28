@@ -43,6 +43,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="FileIO.cs" />
     <Compile Include="Models\ChessBoard.cs" />
     <Compile Include="Models\ChessColor.cs" />
     <Compile Include="Models\ChessPiece.cs" />

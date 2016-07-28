@@ -6,12 +6,22 @@ using System.Threading.Tasks;
 
 namespace Chess
 {
-    class Program
+    public class Program
     {
-        static void Main(string[] args)
+        public static void Main(string[] args)
         {
-            //Does this work?
-            Console.WriteLine("Hello! This is my awesome Chess game!");
+            // Milestone #1 - File/IO Demo
+            FileIODemo(args);
+        }
+
+        /// <summary>
+        /// Executes Milestone 1 - File/IO Demo
+        /// </summary>
+        /// <param name="args">Command Line args</param>
+        public static void FileIODemo(string[] args)
+        {
+            string filename = args[0];
+            FileIO.ProcessFile(filename);
         }
     }
 }

@@ -14,10 +14,13 @@ namespace ChessPhase1.Models
     /// </summary>
     public abstract class ChessPiece
     {
-        // location of this chess piece on the board
+        // Location of this chess piece on the board
         public ChessTile Location { get; private set; }
 
         public ChessColor Color { get; set; }
+
+        // Value of this ChessPiece (each piece has separate constant value)
+        public int Value { get; protected set; }
 
         // The ChessBoard that this ChessPiece belongs to and allows for accessing
         // other tiles 
