@@ -11,6 +11,7 @@ namespace Chess
         static void Main(string[] args)
         {
             //Does this work?
+            Console.WriteLine("Hello! This is my awesome Chess game!");
         }
     }
 }
