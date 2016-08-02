@@ -70,9 +70,6 @@
     <Compile Include="Models\Base\ChessSquare.cs" />
     <Compile Include="Models\Base\ChessUtils.cs" />
     <Compile Include="Models\Base\Debug.cs" />
-    <Compile Include="Models\Interfaces\ICapture.cs" />
-    <Compile Include="Models\Interfaces\ICastle.cs" />
-    <Compile Include="Models\Interfaces\IMove.cs" />
     <Compile Include="Models\Pieces\BishopChessPiece.cs" />
     <Compile Include="Models\Pieces\KingChessPiece.cs" />
     <Compile Include="Models\Pieces\KnightChessPiece.cs" />
@@ -80,7 +77,6 @@
     <Compile Include="Models\Pieces\QueenChessPiece.cs" />
     <Compile Include="Models\Pieces\RookChessPiece.cs" />
     <Compile Include="Models\Utils\BoardScanner.cs" />
-    <Compile Include="Models\Utils\OccupyCheck.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
