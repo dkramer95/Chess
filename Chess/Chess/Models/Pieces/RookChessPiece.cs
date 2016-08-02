@@ -1,4 +1,5 @@
 ﻿using Chess.Models.Base;
+using Chess.Models.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,21 +10,36 @@ namespace Chess.Models.Pieces
 {
     public class RookChessPiece : ChessPiece
     {
-        public RookChessPiece(ChessTile location, ChessColor color) : base(location, color)
+        public RookChessPiece(ChessSquare location, ChessColor color) : base(location, color)
         {
         }
 
-        public override bool Capture(ChessPiece pieceToCapture)
+        public override List<MoveDirection> Directions
+        {
+            get
+            {
+                return new List<MoveDirection>
+                {
+                    MoveDirection.NORTH, MoveDirection.SOUTH,
+                    MoveDirection.EAST, MoveDirection.WEST
+                };
+            }
+        }
+
+        public override char Symbol
+        {
+            get
+            {
+                return 'R';
+            }
+        }
+
+        public override bool CanCapture(ChessPiece pieceToCapture)
         {
             throw new NotImplementedException();
         }
 
-        public override bool MoveTo(ChessTile newLocation)
-        {
-            throw new NotImplementedException();
-        }
-
-        protected override bool IsValidMove(ChessTile newLocation)
+        protected override bool CheckAvailableCaptures()
         {
             throw new NotImplementedException();
         }

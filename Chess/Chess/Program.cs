@@ -1,4 +1,6 @@
 ﻿using Chess.Models.Base;
+using Chess.Models.Pieces;
+using Chess.Models.Utils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,24 +15,35 @@ namespace Chess
         {
             // Milestone #1 - File/IO Demo
             //FileIODemo(args);
-            ChessBoard b = new ChessBoard();
-            b.PrintDebug();
+            InteractiveDemo();
+        }
+
+        public static void InteractiveDemo()
+        {
+            FileIO io = new FileIO();
+
+            for (;;)
+            {
+                Console.Write("Enter command: ");
+                string cmd = Console.ReadLine();
+                io.ProcessLine(cmd);
+            }
         }
 
         /// <summary>
         /// Executes Milestone 1 - File/IO Demo
         /// </summary>
-        /// <param name="args">Command Line args</param>
+        /// <param name="args">ChessCommand Line args</param>
         public static void FileIODemo(string[] args)
         {
-            if (args.Length > 0)
+            if (args.Length >= 1)
             {
-                string filename = args[0];
                 FileIO io = new FileIO();
-                io.ProcessFile(filename);
+                string filename = args[0];
+                io.ReadFile(filename);
             } else
             {
-                throw new ArgumentException("Must supply file as command line argument!");
+                throw new Exception("Missing filename argument!");
             }
         }
     }

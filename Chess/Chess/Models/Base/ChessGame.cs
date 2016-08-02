@@ -13,9 +13,12 @@ namespace Chess.Models.Base
     /// </summary>
     public class ChessGame
     {
-        private ChessBoard _board;
+        public ChessBoard Board { get; private set; }
 
-        public ChessGame() { }
+        public ChessGame()
+        {
+            Board = new ChessBoard();
+        }
 
     }
 }

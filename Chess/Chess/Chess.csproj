@@ -12,6 +12,21 @@
     <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -43,23 +58,49 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\ChessCommand.cs" />
+    <Compile Include="Commands\MoveDoubleCommand.cs" />
+    <Compile Include="Commands\MoveSingleCommand.cs" />
+    <Compile Include="Commands\PlaceCommand.cs" />
     <Compile Include="FileIO.cs" />
     <Compile Include="Models\Base\ChessBoard.cs" />
     <Compile Include="Models\Base\ChessColor.cs" />
     <Compile Include="Models\Base\ChessGame.cs" />
     <Compile Include="Models\Base\ChessPiece.cs" />
-    <Compile Include="Models\Base\ChessTile.cs" />
+    <Compile Include="Models\Base\ChessSquare.cs" />
+    <Compile Include="Models\Base\ChessUtils.cs" />
+    <Compile Include="Models\Base\Debug.cs" />
+    <Compile Include="Models\Interfaces\ICapture.cs" />
+    <Compile Include="Models\Interfaces\ICastle.cs" />
+    <Compile Include="Models\Interfaces\IMove.cs" />
     <Compile Include="Models\Pieces\BishopChessPiece.cs" />
     <Compile Include="Models\Pieces\KingChessPiece.cs" />
     <Compile Include="Models\Pieces\KnightChessPiece.cs" />
     <Compile Include="Models\Pieces\PawnChessPiece.cs" />
     <Compile Include="Models\Pieces\QueenChessPiece.cs" />
     <Compile Include="Models\Pieces\RookChessPiece.cs" />
+    <Compile Include="Models\Utils\BoardScanner.cs" />
+    <Compile Include="Models\Utils\OccupyCheck.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="bin\Debug\file.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include=".NETFramework,Version=v4.6.1">
+      <Visible>False</Visible>
+      <ProductName>Microsoft .NET Framework 4.6.1 %28x86 and x64%29</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
