@@ -24,8 +24,8 @@ namespace Chess.Models.Base
 
         public List<ChessSquare> Squares { get { return _squares.Values.ToList(); } }
 
-        private List<ChessPiece> _lightPieces;
-        private List<ChessPiece> _darkPieces;
+        public List<ChessPiece> LightPieces { get; private set; }
+        public List<ChessPiece> DarkPieces { get; private set; }
 
         /// <summary>
         /// Constructs a new ChessBoard.
@@ -153,8 +153,8 @@ namespace Chess.Models.Base
             const int DARK_START_RANK = MAX_RANK;
             const int DARK_END_RANK = 7;
 
-            AddPieces(DARK_START_RANK, DARK_END_RANK, ChessColor.DARK, _darkPieces);
-            AddPieces(LIGHT_START_RANK, LIGHT_END_RANK, ChessColor.LIGHT, _lightPieces);
+            AddPieces(DARK_START_RANK, DARK_END_RANK, ChessColor.DARK, DarkPieces);
+            AddPieces(LIGHT_START_RANK, LIGHT_END_RANK, ChessColor.LIGHT, LightPieces);
         }
 
         /// <summary>

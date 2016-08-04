@@ -18,22 +18,30 @@ namespace Chess
     /// 2) Move a single piece on the board
     /// 3) Move two pieces in a single turn
     /// </summary>
-    public class FileIO
+    public class CommandProcessor
     {
         private List<ChessCommand> _commands = new List<ChessCommand>()
         {
             new PlaceCommand(), new MoveDoubleCommand(), new MoveSingleCommand(),
         };
 
+        // the current player to execute commands against
+        public ChessPlayer CurrentPlayer { get; set; }
+
         private ChessBoard _board;
 
-        public FileIO()
+        public CommandProcessor()
         {
             // create chess board for demo of placing and moving chess pieces
             _board = new ChessBoard();
             _board.Init();  // uncomment to load board
             _board.PrintDebug();
             ChessPiece.Init(_board);
+        }
+
+        public CommandProcessor(ChessBoard board)
+        {
+            _board = board;
         }
 
         /// <summary>
@@ -58,27 +66,30 @@ namespace Chess
         /// attempts to execute it.
         /// </summary>
         /// <param name="line">line containing the command to execute</param>
-        public void ProcessLine(string line)
+        public bool ProcessLine(string line)
         {
-            bool isValid = false;
+            bool isValidCmd = false;
+            bool isValidMove = false;
 
             foreach(ChessCommand cmd in _commands)
             {
                 if (cmd.IsMatch(line))
                 {
                     Debug.PrintMsg("Matched: " + cmd);
-                    isValid = true;
-                    cmd.Execute(_board);
-                    Console.Clear();
+                    isValidCmd = true;
+                    cmd.CurrentPlayer = CurrentPlayer;
+                    isValidMove = cmd.Execute(_board);
+                    //Console.Clear();
                     _board.PrintDebug();
                     break;
                 }
             }
             //  Line contained an invalid command!
-            if (!isValid)
+            if (!isValidCmd)
             {
                 Debug.PrintErr("Invalid command: [" + line + "]");
             }
+            return isValidCmd && isValidMove;
         }
     }
 }

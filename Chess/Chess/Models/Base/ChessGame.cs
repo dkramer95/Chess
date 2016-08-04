@@ -13,11 +13,65 @@ namespace Chess.Models.Base
     /// </summary>
     public class ChessGame
     {
-        public ChessBoard Board { get; private set; }
+        private ChessBoard _board;
+        private ChessPlayer _lightPlayer;
+        private ChessPlayer _darkPlayer;
+
+        // ChessPlayer who is currently in the middle of moving
+        private ChessPlayer _activePlayer;
+        private CommandProcessor _cmdProcessor;
+
+        private bool _isGameOver;
 
         public ChessGame()
         {
-            Board = new ChessBoard();
+            _board = new ChessBoard();
+            _board.Init();
+            _lightPlayer = new ChessPlayer(ChessColor.LIGHT, _board.LightPieces);
+            _darkPlayer = new ChessPlayer(ChessColor.DARK, _board.DarkPieces);
+            _cmdProcessor = new CommandProcessor(_board);
+
+            // fake out first time --> really is light player
+            _activePlayer = _darkPlayer;
+            BeginGame();
+        }
+
+        public void Play()
+        {
+            while (!_isGameOver)
+            {
+                // alternate and get moves between each player
+                PromptMove();
+            }
+        }
+
+        private void PromptMove()
+        {
+            Console.Write(_activePlayer + "'s move: ");
+            string command = Console.ReadLine();
+            if(_cmdProcessor.ProcessLine(command))
+            {
+                NextTurn();
+            }
+        }
+
+        private void BeginGame()
+        {
+            NextTurn();
+            _board.PrintDebug();
+            Play();
+        }
+
+        /// <summary>
+        /// Advances the turn to the next player.
+        /// </summary>
+        private void NextTurn()
+        {
+            _activePlayer.IsCurrentMove = false;
+            _activePlayer = (_activePlayer == _lightPlayer) ? _darkPlayer : _lightPlayer;
+            _activePlayer.IsCurrentMove = true;
+            _cmdProcessor.CurrentPlayer = _activePlayer;
+            _board.PrintDebug();
         }
 
     }

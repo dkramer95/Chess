@@ -62,11 +62,12 @@
     <Compile Include="Commands\MoveDoubleCommand.cs" />
     <Compile Include="Commands\MoveSingleCommand.cs" />
     <Compile Include="Commands\PlaceCommand.cs" />
-    <Compile Include="FileIO.cs" />
+    <Compile Include="CommandProcessor.cs" />
     <Compile Include="Models\Base\ChessBoard.cs" />
     <Compile Include="Models\Base\ChessColor.cs" />
     <Compile Include="Models\Base\ChessGame.cs" />
     <Compile Include="Models\Base\ChessPiece.cs" />
+    <Compile Include="Models\Base\ChessPlayer.cs" />
     <Compile Include="Models\Base\ChessSquare.cs" />
     <Compile Include="Models\Base\ChessUtils.cs" />
     <Compile Include="Models\Base\Debug.cs" />

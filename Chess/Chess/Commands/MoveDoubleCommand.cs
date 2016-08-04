@@ -17,9 +17,9 @@ namespace Chess.Commands
             }
         }
 
-        public override void Execute(ChessBoard board)
+        public override bool Execute(ChessBoard board)
         {
-            base.Execute(board);
+            return base.Execute(board);
         }
     }
 }

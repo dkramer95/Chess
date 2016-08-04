@@ -17,7 +17,7 @@ namespace Chess.Commands
             }
         }
 
-        public override void Execute(ChessBoard board)
+        public override bool Execute(ChessBoard board)
         {
             char pieceSymbol = char.Parse(_match.Groups[1].Value);
 
@@ -28,6 +28,8 @@ namespace Chess.Commands
             location.Piece = piece;
 
             Debug.PrintMsg(piece + " at: " + location);
+
+            return false; //TODO REIMPLEMENT THIS LATER!!
         }
     }
 }

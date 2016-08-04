@@ -17,35 +17,29 @@ namespace Chess.Commands
             }
         }
 
-        public override void Execute(ChessBoard board)
+        public override bool Execute(ChessBoard board)
         {
+            bool success = false;
             int count = _match.Groups.Count;
 
             ChessSquare startSquare = GetSquareFromMatch(board, 1, 2);
 
             if (startSquare.IsOccupied())
             {
+                ChessPiece movePiece = startSquare.Piece;
                 ChessSquare endSquare = GetSquareFromMatch(board, 3, 4);
 
-                //TODO remove try catch after implementation finished for all other chess pieces.
-                // this is just here so that we don't crash, during development
-                try
-                {
-                    bool didMove = startSquare.Piece.MoveTo(endSquare);
+                success = (CurrentPlayer.Color == movePiece.Color) && movePiece.MoveTo(endSquare);
 
-                    if (!didMove)
-                    {
-                        Debug.PrintWarning(string.Format("Invalid for {0} at {1} to move to {2}", startSquare.Piece, startSquare, endSquare));
-                    }
-
-                } catch (NotImplementedException ex)
+                if (!success)
                 {
-                    Debug.PrintWarning("Movement not yet implemented for piece: " + startSquare.Piece);
+                    Debug.PrintWarning(string.Format("Invalid for {0} at {1} to move to {2}", startSquare.Piece, startSquare, endSquare));
                 }
             } else
             {
                 Debug.PrintWarning("There is no piece to move on: " + startSquare);
             }
+            return success;
         }
     }
 }

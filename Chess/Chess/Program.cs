@@ -15,12 +15,14 @@ namespace Chess
         {
             // Milestone #1 - File/IO Demo
             //FileIODemo(args);
-            InteractiveDemo();
+            //InteractiveDemo();
+
+            ChessGame game = new ChessGame();
         }
 
         public static void InteractiveDemo()
         {
-            FileIO io = new FileIO();
+            CommandProcessor io = new CommandProcessor();
 
             for (;;)
             {
@@ -38,7 +40,7 @@ namespace Chess
         {
             if (args.Length >= 1)
             {
-                FileIO io = new FileIO();
+                CommandProcessor io = new CommandProcessor();
                 string filename = args[0];
                 io.ReadFile(filename);
             } else

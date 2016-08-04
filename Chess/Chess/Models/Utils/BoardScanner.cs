@@ -191,7 +191,10 @@ namespace Chess.Models.Utils
                 ChessSquare diagonal = 
                     _board.SquareAt((char)(startSquare.File + moveArr[j]), startSquare.Rank + moveArr[j + 1]);
 
-                diagonals.Add(diagonal);
+                if (diagonal != null)
+                {
+                    diagonals.Add(diagonal);
+                }
             }
         }
 

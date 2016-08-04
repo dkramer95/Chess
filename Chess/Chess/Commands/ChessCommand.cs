@@ -16,6 +16,9 @@ namespace Chess.Commands
     {
         protected Match _match;
 
+        // the current player to execute commands against
+        public ChessPlayer CurrentPlayer { get; set; }
+
         /// <summary>
         /// The pattern we are using to check matches against.
         /// </summary>
@@ -66,6 +69,6 @@ namespace Chess.Commands
         /// with the pattern.
         /// <param name="board">ChessBoard context</param>
         /// </summary>
-        public abstract void Execute(ChessBoard board);
+        public abstract bool Execute(ChessBoard board);
     }
 }

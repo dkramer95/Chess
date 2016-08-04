@@ -60,7 +60,17 @@ namespace Chess.Models.Pieces
         {
             // allowed to move 2 if first move, otherwise we can only move 1
             int limit = (MoveCount == 0) ? 2 : 1;
-            return new BoardScanner(this, limit).Scan();
+            BoardScanner scanner = new BoardScanner(this, limit);
+            List<ChessSquare> available = scanner.Scan();
+
+            // remove ChessSquares if blocked vertically
+            available.RemoveAll(s => s.IsOccupied());
+
+            // add nearest diagonals as possible moves if they contain an opponent to capture
+            available.AddRange(scanner.DiagonalsFrom(Location, MoveDirections[0])
+                     .Where(s => s.IsOccupied() && IsOpponent(s.Piece)));
+            return available;
+
         }
 
         public PawnChessPiece(ChessSquare location, ChessColor color) : base(location, color)
