@@ -23,6 +23,7 @@ namespace Chess
         private List<ChessCommand> _commands = new List<ChessCommand>()
         {
             new PlaceCommand(), new MoveDoubleCommand(), new MoveSingleCommand(),
+            new GetMovesCommand(),
         };
 
         // the current player to execute commands against

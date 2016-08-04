@@ -73,7 +73,7 @@ namespace Chess.Models.Base
                 }
                 AlternateTileColor(ref squareColor);
             }
-            Console.WriteLine("squares: " + _squares.Count);
+            //Console.WriteLine("squares: " + _squares.Count);
         }
 
         /// <summary>
@@ -108,12 +108,14 @@ namespace Chess.Models.Base
         private void ChessConsoleColors(ChessSquare square)
         {
             // Background Square Color
-            Console.BackgroundColor = (square.Color == ChessColor.LIGHT) ? ConsoleColor.Gray : ConsoleColor.DarkGray;
+            Console.BackgroundColor = 
+                (square.Color == ChessColor.LIGHT) ? ConsoleColor.Gray : ConsoleColor.DarkGray;
 
             // Foreground Text Color
             if (square.Piece != null)
             {
-                Console.ForegroundColor = (square.Piece.Color == ChessColor.LIGHT) ? ConsoleColor.White : ConsoleColor.Black;
+                Console.ForegroundColor =
+                    (square.Piece.Color == ChessColor.LIGHT) ? ConsoleColor.White : ConsoleColor.Black;
             }
         }
 
@@ -153,8 +155,8 @@ namespace Chess.Models.Base
             const int DARK_START_RANK = MAX_RANK;
             const int DARK_END_RANK = 7;
 
-            AddPieces(DARK_START_RANK, DARK_END_RANK, ChessColor.DARK, DarkPieces);
-            AddPieces(LIGHT_START_RANK, LIGHT_END_RANK, ChessColor.LIGHT, LightPieces);
+            DarkPieces  = AddPieces(DARK_START_RANK, DARK_END_RANK, ChessColor.DARK);
+            LightPieces = AddPieces(LIGHT_START_RANK, LIGHT_END_RANK, ChessColor.LIGHT);
         }
 
         /// <summary>
@@ -183,14 +185,13 @@ namespace Chess.Models.Base
         /// <summary>
         /// Adds pieces of specific ChessColor to this GameBoard.
         /// </summary>
-        /// <param name="pieceList">PieceList that we're adding pieces to</param>
         /// <param name="start">Starting location</param>
         /// <param name="end">Ending location</param>
         /// <param name="color">The color of the piece</param>
-        private void AddPieces(int start, int end, ChessColor color, List<ChessPiece> pieceList)
+        private List<ChessPiece> AddPieces(int start, int end, ChessColor color)
         {
             List<char> pieceLayout = GetInitialPieceLayout(color);
-            pieceList = new List<ChessPiece>();
+            List<ChessPiece> pieceList = new List<ChessPiece>();
             int pieceIndex = 0;
 
             for (int r = start; r >= end; r--)
@@ -205,6 +206,7 @@ namespace Chess.Models.Base
                     pieceIndex++;
                 }
             }
+            return pieceList;
         }
 
         /// <summary>

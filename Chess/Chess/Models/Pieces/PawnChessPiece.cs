@@ -56,6 +56,11 @@ namespace Chess.Models.Pieces
             }
         }
 
+        public override string ToString()
+        {
+            return Color + " Pawn";
+        }
+
         public override List<ChessSquare> GetAvailableMoves()
         {
             // allowed to move 2 if first move, otherwise we can only move 1
@@ -86,11 +91,6 @@ namespace Chess.Models.Pieces
         public override bool CanCapture(ChessPiece pieceToCapture)
         {
             throw new NotImplementedException();
-        }
-
-        public override string ToString()
-        {
-            return Color + " Pawn";
         }
 
         protected override bool CheckAvailableCaptures()

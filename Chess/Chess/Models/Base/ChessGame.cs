@@ -47,12 +47,36 @@ namespace Chess.Models.Base
 
         private void PromptMove()
         {
+            PrintPrompt();
+            ReadCommand();
+        }
+
+        private void PrintPrompt()
+        {
+            ColorizeConsole();
             Console.Write(_activePlayer + "'s move: ");
+            Console.ResetColor();
+        }
+
+        /// <summary>
+        /// Reads in a string on the current line in the console and attempts
+        /// process it.
+        /// </summary>
+        private void ReadCommand()
+        {
             string command = Console.ReadLine();
-            if(_cmdProcessor.ProcessLine(command))
+            if (_cmdProcessor.ProcessLine(command))
             {
                 NextTurn();
             }
+        }
+
+        private void ColorizeConsole()
+        {
+            ChessColor playerColor = _activePlayer.Color;
+            ConsoleColor bg = (playerColor == ChessColor.DARK) ? ConsoleColor.DarkGray : ConsoleColor.White;
+            ConsoleColor fg = ConsoleColor.Black;
+            Debug.SetConsoleColors(bg, fg);
         }
 
         private void BeginGame()

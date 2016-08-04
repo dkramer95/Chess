@@ -39,6 +39,11 @@ namespace Chess.Models.Pieces
             }
         }
 
+        public override string ToString()
+        {
+            return Color + " Knight";
+        }
+
         public override List<ChessSquare> GetAvailableMoves()
         {
             return new BoardScanner(this).ScanBranched();

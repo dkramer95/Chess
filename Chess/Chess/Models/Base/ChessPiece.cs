@@ -190,7 +190,7 @@ namespace Chess.Models.Base
 
             if (GetAvailableMoves().Contains(newLocation))
             {
-                // empty or occupied with an opponent that we can capture
+                // newLocation is empty OR occupied with an opponent that we can capture
                 isValid = (!newLocation.IsOccupied()) ||
                           (newLocation.IsOccupied() && IsOpponent(newLocation.Piece));
             }

@@ -36,6 +36,11 @@ namespace Chess.Models.Pieces
             }
         }
 
+        public override string ToString()
+        {
+            return Color + " King";
+        }
+
         public override List<ChessSquare> GetAvailableMoves()
         {
             // limit of 1 'jump' per each move direction

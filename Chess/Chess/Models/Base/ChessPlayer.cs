@@ -37,7 +37,7 @@ namespace Chess.Models.Base
 
         public override string ToString()
         {
-            return "Player: " + Color;
+            return Color.ToString();
         }
     }
 }

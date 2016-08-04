@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\ChessCommand.cs" />
+    <Compile Include="Commands\GetMovesCommand.cs" />
     <Compile Include="Commands\MoveDoubleCommand.cs" />
     <Compile Include="Commands\MoveSingleCommand.cs" />
     <Compile Include="Commands\PlaceCommand.cs" />

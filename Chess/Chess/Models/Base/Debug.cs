@@ -13,6 +13,11 @@ namespace Chess.Models.Base
     {
         public static bool SHOW_MESSAGES = true;
 
+        // foreground, background color styles for different debug types
+        private static ConsoleColor[] WARNING_COLORS = { ConsoleColor.Yellow,  ConsoleColor.Black };
+        private static ConsoleColor[] ERROR_COLORS   = { ConsoleColor.DarkRed, ConsoleColor.White };
+
+
         private static void Print(string msg)
         {
             if (SHOW_MESSAGES)
@@ -21,33 +26,37 @@ namespace Chess.Models.Base
             }
         }
 
-        private static void PrintColored(ConsoleColor bg, ConsoleColor fg, string txt)
+        public static void PrintColored(ConsoleColor bg, ConsoleColor fg, string txt)
+        {
+            SetConsoleColors(bg, fg);
+            Print(txt);
+            Console.ResetColor();
+        }
+
+        private static void PrintColored(ConsoleColor[] colors, string txt)
+        {
+            PrintColored(colors[0], colors[1], txt);
+        }
+
+        public static void SetConsoleColors(ConsoleColor bg, ConsoleColor fg)
         {
             Console.BackgroundColor = bg;
             Console.ForegroundColor = fg;
-            Print(txt);
-            ClearColors();
         }
 
         public static void PrintMsg(string msg)
         {
-            PrintColored(ConsoleColor.Green, ConsoleColor.Black, msg);
+            Print(msg);
         }
 
         public static void PrintErr(string err)
         {
-            PrintColored(ConsoleColor.DarkRed, ConsoleColor.White, err);
+            PrintColored(ERROR_COLORS, err);
         }
 
         public static void PrintWarning(string warning)
         {
-            PrintColored(ConsoleColor.Yellow, ConsoleColor.Black, warning);
-        }
-
-        private static void ClearColors()
-        {
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.Green;
+            PrintColored(WARNING_COLORS, warning);
         }
     }
 }

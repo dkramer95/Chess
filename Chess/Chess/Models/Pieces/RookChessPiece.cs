@@ -38,6 +38,11 @@ namespace Chess.Models.Pieces
             }
         }
 
+        public override string ToString()
+        {
+            return Color + " Rook";
+        }
+
         public override bool CanCapture(ChessPiece pieceToCapture)
         {
             throw new NotImplementedException();
