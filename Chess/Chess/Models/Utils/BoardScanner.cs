@@ -10,43 +10,63 @@ namespace Chess.Models.Utils
 {
 
     /// <summary>
-    /// Utility class for "walking" along the various squares of a ChessBoard. This is useful
-    /// for checking to see what ChessSquares are available and whether or not we can capture.
-    /// Users of this class will have to implement their sentinel conditions for determining
-    /// when to stop checking, as this class only allows for movement around the ChessBoard
-    /// from its initial Start ChessSquare and only provides methods to check if the next
-    /// ChessSquare is contained within the board.
+    /// This utility class allows for "scanning" along the various ChessSquares of a ChessBoard.
+    /// This class is used for checking what ChessSquares are available for a given ChessPiece
+    /// and whether or not we can capture. Scanning along the board requires an initial starting
+    /// ChessPiece and it's supported MoveDirections. From there, we can continue to scan along
+    /// the board in each supported ChessPiece MoveDirection until we are either blocked, or we
+    /// are out of range on the ChessBoard.
+    /// 
+    /// A limit can be set to determine how many iterations (scans) we make in each direction.
+    /// Some ChessPieces' range of movement is limited, and thus they need specify their limit when
+    /// creating a BoardScanner. The default is NO_LIMIT, where scanning will continue until the
+    /// above conditions are met.
+    /// 
+    /// After a scan has been completed in the current MoveDirection, everything is reset back
+    /// to the Pivot ChessPiece, and then scanning can continue, if there are any more
+    /// MoveDirections.
     /// </summary>
     public class BoardScanner
     {
-        // The direction we are scanning through the board
-        private MoveDirection _direction;
-        public MoveDirection Direction
+        // The ChessPiece we will begin scanning from
+        private ChessPiece _piece;
+        private ChessBoard _board;
+
+        // Next ChessPiece positioning
+        private char _nextFile;
+        private int _nextRank;
+
+        // Used as default limit, which skips range limit checking
+        public const int NO_LIMIT = 64;
+
+        // The direction we are currently scanning through the board
+        private MoveDirection _currentDirection;
+        public MoveDirection CurrentDirection
         {
             get
             {
-                return _direction;
+                return _currentDirection;
             }
             set
             {
-                _direction = value;
+                _currentDirection = value;
+                // reset back to pivot after changing our current direction
                 Reset();
             }
         }
 
+        // Pivot location from which all scans will start from
         public ChessSquare Pivot { get; set; }
 
-        private const int NO_LIMIT = 64;
+        // Scan threshold limit (for specific pieces) where the range is limited
         public int Limit { get; set; }
 
-        private ChessPiece _piece;
 
-        private char _nextFile;
-        private int _nextRank;
-
-        private ChessBoard _board;
-
-
+        /// <summary>
+        /// Constructs a new BoardScanner starting about the specified ChessPiece
+        /// </summary>
+        /// <param name="piece">ChessPiece to begin scans from</param>
+        /// <param name="limit">Optional range scan limit (default is none)</param>
         public BoardScanner(ChessPiece piece, int limit = NO_LIMIT)
         {
             _piece = piece;
@@ -55,19 +75,28 @@ namespace Chess.Models.Utils
             Limit = limit;
         }
 
+        /// <summary>
+        /// Scans the board in each supported direction from the current
+        /// ChessPiece while ChessSquares are open, or until we hit an opponent.
+        /// </summary>
+        /// <returns>List of available ChessSquares to move to</returns>
         public List<ChessSquare> Scan()
         {
             List<ChessSquare> available = new List<ChessSquare>();
+            ChessSquare square = null;
 
-            _piece.Directions.ForEach(d =>
+            foreach (MoveDirection dir in _piece.MoveDirections)
             {
-                Direction = d;
+                CurrentDirection = dir;
                 int count = 0;
 
                 while (HasNext() && count < Limit)
                 {
-                    ChessSquare square = Next();
                     count++;
+                    square = Next();
+
+                    // add if opponent then break, otherwise break because we can't 
+                    // land on same ChessPiece color
                     if (square.IsOccupied())
                     {
                         if (_piece.IsOpponent(square.Piece))
@@ -78,21 +107,27 @@ namespace Chess.Models.Utils
                     }
                     available.Add(square);
                 }
-            });
+            }
             return available;
         }
 
+        /// <summary>
+        /// Scans the board in each supported direction from the current
+        /// ChessPiece and branches out to also scan diagonal ChessSquares.
+        /// NOTE: This should only be used on the KnightChessPiece as all
+        /// other ChessPieces should use the regular Scan method.
+        /// </summary>
+        /// <returns></returns>
         public List<ChessSquare> ScanBranched()
         {
             List<ChessSquare> available = new List<ChessSquare>();
+            ChessSquare square = null;
+            const int BRANCH_THRESHOLD = 1; // where we branch out
 
-            _piece.Directions.ForEach(d =>
+            foreach (MoveDirection dir in _piece.MoveDirections)
             {
-                Direction = d;
+                CurrentDirection = dir;
                 int count = 0;
-                const int BRANCH_THRESHOLD = 1; // where we branch out
-
-                ChessSquare square = null;
 
                 while (HasNext() && count < BRANCH_THRESHOLD)
                 {
@@ -102,39 +137,70 @@ namespace Chess.Models.Utils
                 // Get diagonals and filter out any nulls
                 if (square != null)
                 {
-                    available.AddRange(DiagonalsFrom(square, d).Where(s => s != null));
+                    available.AddRange(DiagonalsFrom(square, dir).Where(s => s != null));
                 }
-            });
-
+            }
             return available;
         }
 
-        public List<ChessSquare> DiagonalsFrom(ChessSquare square, MoveDirection startDirection)
+        /// <summary>
+        /// Gets the diagonal ChessSquares from the starting ChessSquare and the specified
+        /// move direction.
+        /// </summary>
+        /// <param name="square"></param>
+        /// <param name="direction"></param>
+        /// <returns></returns>
+        public List<ChessSquare> DiagonalsFrom(ChessSquare startSquare, MoveDirection direction)
         {
-            List<ChessSquare> diagonals = null;
+            List<ChessSquare> diagonals = new List<ChessSquare>();
 
-            int moveDirection = GetMoveDirection(startDirection);
+            // rank/file scan direction movement
+            int moveValue = GetMoveValue(direction);
+            int[] moveArr = null;
 
-            if ((startDirection == MoveDirection.NORTH) || (startDirection == MoveDirection.SOUTH))
+            // initialize moveArr[] values to get proper diagonals based on direction
+            switch (direction)
             {
-                // left and right
-                diagonals = new List<ChessSquare>()
-                {
-                    _board.SquareAt((char)(square.File + 1), square.Rank + moveDirection),
-                    _board.SquareAt((char)(square.File - 1), square.Rank + moveDirection),
-                };
-            } else
-            {
-                diagonals = new List<ChessSquare>()
-                {
-                    _board.SquareAt((char)(square.File + moveDirection), square.Rank + 1),
-                    _board.SquareAt((char)(square.File + moveDirection), square.Rank - 1),
-                };
+                // diagonals left and right
+                case MoveDirection.NORTH:
+                case MoveDirection.SOUTH:
+                    moveArr = new int[] { 1, moveValue, -1, moveValue };
+                    break;
+                // diagonals above and below
+                case MoveDirection.EAST:
+                case MoveDirection.WEST:
+                    moveArr = new int[] { 1, moveValue, -1, moveValue };
+                    break;
             }
+            AddDiagonals(startSquare, diagonals, moveArr);
             return diagonals;
         }
 
-        public int GetMoveDirection(MoveDirection d)
+        /// <summary>
+        /// Updates list of diagonals by starting at the ChessSquare and using the moveArr
+        /// values to determine the File / Rank DX to get the proper diagonal value. The
+        /// new diagonal ChessSquare is added to the diagonals List.
+        /// </summary>
+        /// <param name="startSquare">Starting ChessSquare from which to get diagonals from</param>
+        /// <param name="diagonals">List to append diagonal ChessSquares to</param>
+        /// <param name="moveArr">Movement array specifying where / how to look for diagonals</param>
+        private void AddDiagonals(ChessSquare startSquare, List<ChessSquare> diagonals, int[] moveArr)
+        {
+            for (int j = 0; j < moveArr.Length; j += 2)
+            {
+                ChessSquare diagonal = 
+                    _board.SquareAt((char)(startSquare.File + moveArr[j]), startSquare.Rank + moveArr[j + 1]);
+
+                diagonals.Add(diagonal);
+            }
+        }
+
+        /// <summary>
+        /// Gets the direction advancement value from the specified MoveDirection.
+        /// </summary>
+        /// <param name="d">MoveDirection to check</param>
+        /// <returns>int value of MoveDirection</returns>
+        public int GetMoveValue(MoveDirection d)
         {
             int value = 0;
             switch (d)
@@ -148,10 +214,12 @@ namespace Chess.Models.Utils
                     value = -1;
                     break;
             }
-
             return value;
         }
 
+        /// <summary>
+        /// Resets _nextFile and _nextRank back to the starting Pivot values.
+        /// </summary>
         private void Reset()
         {
             _nextFile = Pivot.File;
@@ -175,7 +243,7 @@ namespace Chess.Models.Utils
         /// <param name="nextRank">nextRank to update (depending on direction)</param>
         private void Update(ref char nextFile, ref int nextRank)
         {
-            switch (Direction)
+            switch (CurrentDirection)
             {
                 case MoveDirection.NORTH:
                     nextRank++;
@@ -205,7 +273,6 @@ namespace Chess.Models.Utils
                     nextRank--;
                     nextFile--;
                     break;
-
             }
         }
 
@@ -221,14 +288,5 @@ namespace Chess.Models.Utils
             Update(ref nextFile, ref nextRank);
             return _board.SquareAt(nextFile, nextRank) != null;
         }
-    }
-
-    /// <summary>
-    /// Enum for all the different possible movement directions.
-    /// </summary>
-    public enum MoveDirection
-    {
-        NORTH, SOUTH, EAST, WEST,
-        NORTH_EAST, NORTH_WEST, SOUTH_EAST, SOUTH_WEST,
     }
 }

@@ -13,24 +13,29 @@ namespace Chess.Models.Pieces
         public KnightChessPiece(ChessSquare location, ChessColor color) : base(location, color)
         {
         }
-
-        public override List<MoveDirection> Directions
-        {
-            get
-            {
-                return new List<MoveDirection>
-                {
-                    MoveDirection.NORTH, MoveDirection.SOUTH,
-                    MoveDirection.EAST, MoveDirection.WEST
-                };
-            }
-        }
+        
 
         public override char Symbol
         {
             get
             {
                 return 'N';
+            }
+        }
+
+        public override MoveDirection[] MoveDirections
+        {
+            get
+            {
+                return Moves.HORIZ_VERT;
+            }
+        }
+
+        public override int Value
+        {
+            get
+            {
+                return 350;
             }
         }
 

@@ -11,25 +11,28 @@ namespace Chess.Models.Pieces
         {
         }
 
-        public override List<MoveDirection> Directions
-        {
-            get
-            {
-                return new List<MoveDirection>
-                {
-                    MoveDirection.NORTH, MoveDirection.SOUTH,
-                    MoveDirection.EAST, MoveDirection.WEST,
-                    MoveDirection.NORTH_EAST, MoveDirection.NORTH_WEST,
-                    MoveDirection.SOUTH_EAST, MoveDirection.SOUTH_WEST
-                };
-            }
-        }
-
         public override char Symbol
         {
             get
             {
                 return 'K';
+            }
+        }
+
+        public override MoveDirection[] MoveDirections
+        {
+            get
+            {
+                return Moves.ALL;
+            }
+        }
+
+        public override int Value
+        {
+            get
+            {
+                // technically, kings value is infinite because game is over when captured!
+                return 10000;
             }
         }
 

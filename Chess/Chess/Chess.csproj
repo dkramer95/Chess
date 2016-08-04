@@ -77,6 +77,7 @@
     <Compile Include="Models\Pieces\QueenChessPiece.cs" />
     <Compile Include="Models\Pieces\RookChessPiece.cs" />
     <Compile Include="Models\Utils\BoardScanner.cs" />
+    <Compile Include="Models\Utils\Moves.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -14,15 +14,11 @@ namespace Chess.Models.Pieces
         {
         }
 
-        public override List<MoveDirection> Directions
+        public override MoveDirection[] MoveDirections
         {
             get
             {
-                return new List<MoveDirection>
-                {
-                    MoveDirection.NORTH, MoveDirection.SOUTH,
-                    MoveDirection.EAST, MoveDirection.WEST
-                };
+                return Moves.HORIZ_VERT;
             }
         }
 
@@ -31,6 +27,14 @@ namespace Chess.Models.Pieces
             get
             {
                 return 'R';
+            }
+        }
+
+        public override int Value
+        {
+            get
+            {
+                return 525;
             }
         }
 

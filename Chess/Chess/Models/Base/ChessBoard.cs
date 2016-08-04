@@ -108,12 +108,12 @@ namespace Chess.Models.Base
         private void ChessConsoleColors(ChessSquare square)
         {
             // Background Square Color
-            Console.BackgroundColor = square.Color == ChessColor.LIGHT ? ConsoleColor.Gray : ConsoleColor.DarkGray;
+            Console.BackgroundColor = (square.Color == ChessColor.LIGHT) ? ConsoleColor.Gray : ConsoleColor.DarkGray;
 
             // Foreground Text Color
             if (square.Piece != null)
             {
-                Console.ForegroundColor = square.Piece.Color == ChessColor.LIGHT ? ConsoleColor.White : ConsoleColor.Black;
+                Console.ForegroundColor = (square.Piece.Color == ChessColor.LIGHT) ? ConsoleColor.White : ConsoleColor.Black;
             }
         }
 

@@ -27,7 +27,7 @@ namespace Chess.Models.Base
         public abstract char Symbol { get; }
 
         // Value of this ChessPiece (each piece has separate constant value)
-        public int Value { get; protected set; }
+        public abstract int Value { get; }
 
         // Amount of moves this ChessPiece has made
         public int MoveCount { get; protected set; }
@@ -43,7 +43,7 @@ namespace Chess.Models.Base
         // Have we initialized ChessPiece so that it can talk to the ChessBoard for moving around?
         private static bool _isInitialized = false;
 
-        public abstract List<MoveDirection> Directions { get; }
+        public abstract MoveDirection[] MoveDirections { get; }
 
         /// <summary>
         /// Constructs a new chess piece at the specified location.
@@ -146,7 +146,7 @@ namespace Chess.Models.Base
         {
             bool didCapture = false;
 
-            if (pieceToCapture.Color != Color)
+            if (IsOpponent(pieceToCapture))
             {
                 pieceToCapture.IsCaptured = true;
                 didCapture = true;
@@ -159,7 +159,7 @@ namespace Chess.Models.Base
         }
 
         /// <summary>
-        /// Checks to see if the ChessPiece belongs to the opponent.
+        /// Checks to see the ChessPiece is an opponent to this ChessPiece.
         /// </summary>
         /// <param name="piece">ChessPiece to check</param>
         /// <returns>true if ChessPiece is an opponent</returns>
@@ -191,8 +191,8 @@ namespace Chess.Models.Base
             if (GetAvailableMoves().Contains(newLocation))
             {
                 // empty or occupied with an opponent that we can capture
-                isValid = (!newLocation.IsOccupied())
-                    || (newLocation.IsOccupied() && IsOpponent(newLocation.Piece));
+                isValid = (!newLocation.IsOccupied()) ||
+                          (newLocation.IsOccupied() && IsOpponent(newLocation.Piece));
             }
             return isValid;
         }

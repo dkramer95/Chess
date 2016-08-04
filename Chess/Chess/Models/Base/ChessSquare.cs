@@ -45,7 +45,7 @@ namespace Chess.Models.Base
         /// <returns>true if occupied</returns>
         public bool IsOccupied()
         {
-            // If OccupiedPiece is null, we know that this ChessSquare is available
+            // If OccupiedPiece isn't null, we know that this ChessSquare is not available
             return Piece != null;
         }
 
