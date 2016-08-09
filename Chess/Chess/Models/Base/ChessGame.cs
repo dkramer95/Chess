@@ -25,15 +25,18 @@ namespace Chess.Models.Base
 
         public ChessGame()
         {
+            Init();
+            BeginGame();
+        }
+
+        private void Init()
+        {
             _board = new ChessBoard();
             _board.Init();
             _lightPlayer = new ChessPlayer(ChessColor.LIGHT, _board.LightPieces);
             _darkPlayer = new ChessPlayer(ChessColor.DARK, _board.DarkPieces);
             _cmdProcessor = new CommandProcessor(_board);
 
-            // fake out first time --> really is light player
-            _activePlayer = _darkPlayer;
-            BeginGame();
         }
 
         public void Play()
@@ -81,6 +84,9 @@ namespace Chess.Models.Base
 
         private void BeginGame()
         {
+            // fake out first time --> really is light player who goes first
+            _activePlayer = _darkPlayer;
+
             NextTurn();
             _board.PrintDebug();
             Play();
@@ -96,6 +102,36 @@ namespace Chess.Models.Base
             _activePlayer.IsCurrentMove = true;
             _cmdProcessor.CurrentPlayer = _activePlayer;
             _board.PrintDebug();
+
+            if(IsKingInCheck())
+            {
+                Debug.PrintMsg("KING IS IN CHECK! YOU MUST MOVE TO SAFETY!");
+                _board.PrintDebug();
+            }
+        }
+
+        private bool IsKingInCheck()
+        {
+            // for each piece that belongs to the active player,
+            // if the available moves contains an opponent king, that oppponent
+            // is in check!!!
+
+            bool inCheck = false;
+
+            foreach (ChessPiece p in _activePlayer.Pieces)
+            {
+                List<ChessSquare> movesForPiece = p.GetAvailableMoves();
+                
+                foreach (ChessSquare s in movesForPiece)
+                {
+                    if (s.IsOccupied() && p.IsOpponent(s.Piece) && s.Piece.Symbol == 'K')
+                    {
+                        inCheck = true;
+                        break;
+                    }
+                }
+            }
+            return inCheck;
         }
 
     }

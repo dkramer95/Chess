@@ -13,7 +13,7 @@ namespace Chess.Commands
         {
             get
             {
-                return @"showmoves$";
+                return @"_moves$";
             }
         }
 
@@ -25,11 +25,20 @@ namespace Chess.Commands
             foreach (ChessPiece p in allMoves.Keys)
             {
                 List<ChessSquare> movesForPiece = allMoves[p];
-                movesForPiece.ForEach(s => Console.WriteLine(p + " at: " + p.Location + " can move to : " + s));
-            }
 
-            //CurrentPlayer.Pieces.ForEach(p => allMoves.AddRange(p.GetAvailableMoves()));
-            //allMoves.ForEach(s => Console.WriteLine(s));
+                movesForPiece.ForEach(s =>
+                {
+                    // print formatted pieces that can move and where they can move to
+                    string output = string.Format("{0, -15} [{1, 2} => {2, 2}]", p, p.Location, s);
+
+                    // print out pieces we can capture if we move
+                    if (s.IsOccupied() && p.IsOpponent(s.Piece))
+                    {
+                        output += string.Format(" * can_capture: {0, -15}", s.Piece);
+                    }
+                    Console.WriteLine(output);
+                });
+            }
             return false;
         }
     }

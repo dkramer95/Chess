@@ -14,8 +14,8 @@ namespace Chess.Models.Base
         public static bool SHOW_MESSAGES = true;
 
         // foreground, background color styles for different debug types
-        private static ConsoleColor[] WARNING_COLORS = { ConsoleColor.Yellow,  ConsoleColor.Black };
-        private static ConsoleColor[] ERROR_COLORS   = { ConsoleColor.DarkRed, ConsoleColor.White };
+        public static ConsoleColor[] WARNING_COLORS = { ConsoleColor.Yellow,  ConsoleColor.Black };
+        public static ConsoleColor[] ERROR_COLORS   = { ConsoleColor.DarkRed, ConsoleColor.White };
 
 
         private static void Print(string msg)

@@ -17,5 +17,6 @@ namespace Chess.Models.Base
 
         LIGHT = WHITE,
         DARK = BLACK,
+
     }
 }

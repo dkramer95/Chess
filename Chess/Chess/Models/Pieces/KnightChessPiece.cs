@@ -46,7 +46,12 @@ namespace Chess.Models.Pieces
 
         public override List<ChessSquare> GetAvailableMoves()
         {
-            return new BoardScanner(this).ScanBranched();
+            List<ChessSquare> available = new List<ChessSquare>();
+            BoardScanner scanner = new BoardScanner(this);
+
+            available.AddRange(scanner.ScanBranched());
+
+            return available;
         }
 
         public override bool CanCapture(ChessPiece pieceToCapture)

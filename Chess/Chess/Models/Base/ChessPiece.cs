@@ -168,6 +168,17 @@ namespace Chess.Models.Base
             return piece.Color != Color;
         }
 
+        /// <summary>
+        /// Checks to see if we can occupy a ChessSquare based on whether it is open,
+        /// or occupied with an opponent piece.
+        /// </summary>
+        /// <param name="square">Square to check</param>
+        /// <returns>true if this ChessPiece can occupy the specified ChessSquare</returns>
+        public bool CanOccupy(ChessSquare square)
+        {
+            return !square.IsOccupied() || (square.IsOccupied() && IsOpponent(square.Piece));
+        }
+
         public abstract bool CanCapture(ChessPiece pieceToCapture);
 
         /// <summary>

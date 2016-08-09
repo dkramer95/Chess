@@ -9,6 +9,12 @@ namespace Chess.Models.Base
 {
     public class ChessUtils
     {
+
+        /// <summary>
+        /// Returns the proper ChessColor from the specified symbol.
+        /// </summary>
+        /// <param name="symbol"></param>
+        /// <returns>Returns the proper ChessColor from the specified symbol.</returns>
         public static ChessColor ColorFromSymbol(char symbol)
         {
             switch (char.ToUpper(symbol))

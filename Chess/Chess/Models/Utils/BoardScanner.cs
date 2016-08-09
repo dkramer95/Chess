@@ -134,10 +134,10 @@ namespace Chess.Models.Utils
                     square = Next();
                     count++;
                 }
-                // Get diagonals and filter out any nulls
+                // Get diagonals and filter out any nulls and squares that we can't occupy
                 if (square != null)
                 {
-                    available.AddRange(DiagonalsFrom(square, dir).Where(s => s != null));
+                    available.AddRange(DiagonalsFrom(square, dir).Where(s => s != null && _piece.CanOccupy(s)));
                 }
             }
             return available;
@@ -191,6 +191,7 @@ namespace Chess.Models.Utils
                 ChessSquare diagonal = 
                     _board.SquareAt((char)(startSquare.File + moveArr[j]), startSquare.Rank + moveArr[j + 1]);
 
+                // add if diagonals exists
                 if (diagonal != null)
                 {
                     diagonals.Add(diagonal);

@@ -14,10 +14,10 @@ namespace Chess
         public static void Main(string[] args)
         {
             // Milestone #1 - File/IO Demo
-            //FileIODemo(args);
+            FileIODemo(args);
             //InteractiveDemo();
 
-            ChessGame game = new ChessGame();
+            //ChessGame game = new ChessGame();
         }
 
         public static void InteractiveDemo()
