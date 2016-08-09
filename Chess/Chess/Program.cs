@@ -14,8 +14,8 @@ namespace Chess
         public static void Main(string[] args)
         {
             // Milestone #1 - File/IO Demo
-            //FileIODemo(args);
-            InteractiveDemo();
+            FileIODemo(args);
+            //InteractiveDemo();
         }
 
         public static void InteractiveDemo()
